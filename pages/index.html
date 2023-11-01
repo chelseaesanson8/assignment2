@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <title>Books by Gege Akutami</title>
+</head>
+
+<body>
+    <div>
+        <h1>Books by Gege Akutami</h1>
+        <form id="bookForm" action="/order" method="get">
+            <select id="bookDropdown" name="book">
+                <option value="none">Select a book</option>
+                <option value="1974710025">Jujutsu Kaisen: Volume 1</option>
+                <option value="1974710033">Jujutsu Kaisen: Volume 2</option>
+                <option value="1974710041">Jujutsu Kaisen: Volume 3</option>
+
+            </select>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1">
+            <br>
+            <input type="submit" value="Purchase">
+        </form>
+    </div>
+</body>
+
+</html>
