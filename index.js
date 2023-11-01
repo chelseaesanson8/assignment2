@@ -126,3 +126,4 @@ app.use((err, req, res, next) => {
 // app listening on port 3000
 http.createServer(app).listen(3000)
 
+// TODO: Add footer to html page
