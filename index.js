@@ -39,10 +39,16 @@ function order(req, res, next) {
     const bookISBN = req.query.book // Get the book ISBN
     const quantity = req.query.quantity  // Get the quantity
 
-    // Validates the form submission, if no bookISBN is provided - gives error, no quantity given - gives error, bookISBN set to "none" - gives error, quantity less than or equal to 0 - gives error
-    if (!bookISBN || !quantity || bookISBN === "none" || quantity <= 0) {
+    // Validates the form submission, if no bookISBN is provided - gives error, no quantity given - gives error, quantity less than or equal to 0 - gives error
+    if (!bookISBN || !quantity || quantity <= 0) {
         const error = new Error('Invalid input or no book selected');
         error.status = 404;
+        return next(error);
+    }
+    // if no book is selected - gives error
+    if (bookISBN === "none") {
+        const error = new Error('Must select a book!')
+        error.status = 200;
         return next(error);
     }
 
@@ -110,14 +116,22 @@ app.use((req, res) => {
     res.end('<html><body><h2>Sorry -- file not found!</h2></body></html>')
 })
 
-
+// handles error if server error, 404, or 200 occurs
 app.use((err, req, res, next) => {
     console.error(err);
-    const status = err.status || 500;
+    const status = err.status || 500
 
+    // if 404 from order function, give error
     if (status === 404) {
-        res.status(status).send('<html><body><h2>Invalid input or no book selected.</h2></body></html>');
-    } else {
+        res.status(status).send('<html><body><h2>Invalid input or no book selected.</h2></body></html>')
+    }
+    // if 200 from order function, give error
+    else if (status === 200) {
+        res.status(status).send('<html><body><h2>Must select a book!</h2></body></html>')
+
+    }
+    // if not 404 or 200, give server error
+    else {
         res.status(status).send('<html><body><h2>Server Error!</h2></body></html>');
     }
 });
@@ -125,5 +139,4 @@ app.use((err, req, res, next) => {
 
 // app listening on port 3000
 http.createServer(app).listen(3000)
-
-// TODO: Add footer to html page
+console.log("Server listening on port 3000")
